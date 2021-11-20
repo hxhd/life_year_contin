@@ -1,0 +1,53 @@
+---
+title: "Life Expectancy: regresion analysis"
+output:
+  html_document:
+    code_folding: hide
+date: 2021-11-20
+categories: ["R"]
+tags: ["R Markdown", "plot", "life expectancy"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE,warning = F, message = F)
+```
+
+
+From the visualization in last blog, we expect a linear trend of life expectancy over the time. Is our assumption right? In this blog, we will check this intuition statistically.  
+
+we formulate a linear model as following:
+
+$$\hat{\text{lifeExp}_i} = \beta_0 + \beta_1 * \text{year}_i$$
+
+The estimates of this linear regression model is shown in table below:
+
+```{r, results='asis'}
+library(tidyverse)
+library(stargazer)
+data = read.csv("../../../raw_data/08_gap-every-five-years.tsv", sep = "\t")
+
+
+ols = lm(lifeExp ~ year, data)
+stargazer(ols, type ="html")
+
+
+
+
+```
+
+
+
+From the estimates we reject the null hypothesis of no relationship between year and life expectancy, on average, life expectancy increases by 0.3259 year every year around the world.
+
+However, if we look at distribution of the residuals, groupped by continent, we find there is a relation between residuals of regression model and the continents.
+
+
+
+```{r}
+data$residulas = ols$residuals
+
+
+data %>% ggplot(aes(y = residulas, color = continent)) + geom_boxplot() + 
+  labs(title = "residuals by continents")
+```
+

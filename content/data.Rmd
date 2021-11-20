@@ -1,0 +1,28 @@
+---
+title: "Data"
+output:
+  html_document:
+    code_folding: hide
+date: 2021-11-20
+categories: ["R"]
+tags: ["R Markdown", "plot", "life expectancy"]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE,warning = F, message = F)
+```
+
+
+
+In this page, we provide a view on the origin data.
+
+```{r}
+library(kableExtra)
+
+data = read.csv("../raw_data/08_gap-every-five-years.tsv", sep = "\t")
+
+DT::datatable(data)
+```
+
+

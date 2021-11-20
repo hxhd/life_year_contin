@@ -1,0 +1,35 @@
+---
+title: "Life Expectancy over Time"
+output:
+  html_document:
+    code_folding: hide
+date: 2021-11-20
+categories: ["R"]
+tags: ["R Markdown", "plot", "life expectancy"]
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>In the first blog, we look at the general trend of life expectancy over the time and its distribuitons.</p>
+<p>From the figure below, we have a general trend (e.g., increasing ) for life expectancy across time, this trend is somewhat linear.</p>
+<pre class="r"><code>library(tidyverse)
+data = read.csv(&quot;../../../raw_data/08_gap-every-five-years.tsv&quot;, sep = &quot;\t&quot;)
+head(data)
+##       country continent year lifeExp      pop gdpPercap
+## 1 Afghanistan      Asia 1952  28.801  8425333  779.4453
+## 2 Afghanistan      Asia 1957  30.332  9240934  820.8530
+## 3 Afghanistan      Asia 1962  31.997 10267083  853.1007
+## 4 Afghanistan      Asia 1967  34.020 11537966  836.1971
+## 5 Afghanistan      Asia 1972  36.088 13079460  739.9811
+## 6 Afghanistan      Asia 1977  38.438 14880372  786.1134
+
+data  %&gt;% ggplot(aes(x = year, y = lifeExp, color= as.factor(year))) + geom_jitter() + theme(legend.position  = &quot;none&quot;) +
+  labs(title = &quot;Time Series: Life Expectancy over the Time&quot;, y = &quot;Life Expectancy (years)&quot;, x = &#39;Years&#39;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>The peak of life expectancy goes from bottom to top over time. In 1952, the peak appeared at the bottom. As time goes on, the top of the mountain is getting closer to the top of the mountain. By 2007, the data are mainly concentrated at the top. Moreover, although the spread span remains roughly unchanged, the distribution is moving towards higher numbers. The general shape of the distribution (thin at one end and wide at the other) indicates that the distribution of life expectancy is skewed. Before 1977, the distribution was multimodal and then unimodal. No violin looks symmetrical, so the distribution around the center is asymmetric.</p>
+<pre class="r"><code>data  %&gt;% ggplot(aes(x = year, 
+                     y = lifeExp, color = as.factor(year))) + 
+  geom_violin(scale = &quot;count&quot;) + theme(legend.position  = &quot;none&quot;) +
+  labs(title = &quot;Time Series: Life Expectancy over the Time&quot;, y = &quot;Life Expectancy (years)&quot;, x = &#39;Years&#39;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>

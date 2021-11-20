@@ -1,0 +1,336 @@
+---
+title: "Life Expectancy over Time by Continent"
+output:
+  html_document:
+    code_folding: hide
+date: 2021-11-20
+categories: ["R"]
+tags: ["R Markdown", "plot", "life expectancy"]
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>In the last blog, we find the evidence that there should be a relationship between life expectancy and continent, in this blog, we will check it.</p>
+<p>Firstly, we will visualize the relationship between life expectancy and year by varying the continents.</p>
+<pre class="r"><code>library(tidyverse)
+library(stargazer)
+data = read.csv(&quot;../../../raw_data/08_gap-every-five-years.tsv&quot;, sep = &quot;\t&quot;)
+
+
+ols = lm(lifeExp ~ year, data)
+data$residulas = ols$residuals
+data %&gt;% ggplot(aes(y = lifeExp, x = year, color = continent)) + 
+  geom_point() +
+  stat_smooth(method = &quot;lm&quot;, col = &quot;red&quot;) + facet_wrap(vars(continent), scales = &quot;free&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>The figure above suggests a interaction between year and continent, as the fitted regression lines vary from continent to continent (not parallel). Hence, the regression model should include an interaction term for continent and year:</p>
+<p><span class="math display">\[\hat{\text{lifeExp}_i} = \beta_0 + \beta_1 * \text{year}_i + \beta_2 \text{continent} + \beta_3 \text{year}\cdot\text{contient}\]</span></p>
+<pre class="r"><code>
+
+
+ols = lm(lifeExp ~ year*continent, data)
+stargazer(ols, type =&quot;html&quot;)</code></pre>
+<table style="text-align:center">
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="1" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+lifeExp
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+year
+</td>
+<td>
+0.290<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.017)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+continentAmericas
+</td>
+<td>
+-138.848<sup>**</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(57.851)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+continentAsia
+</td>
+<td>
+-312.633<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(52.904)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+continentEurope
+</td>
+<td>
+156.847<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(54.498)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+continentOceania
+</td>
+<td>
+182.350
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(171.283)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+year:continentAmericas
+</td>
+<td>
+0.078<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.029)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+year:continentAsia
+</td>
+<td>
+0.164<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.027)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+year:continentEurope
+</td>
+<td>
+-0.068<sup>**</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.028)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+year:continentOceania
+</td>
+<td>
+-0.079
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.087)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-524.258<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(32.963)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+1,704
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.693
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.691
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+7.180 (df = 1694)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+424.273<sup>***</sup> (df = 9; 1694)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<p>Most estimates are significant, this confirm our assumption that life expectancy vary over continents and there is an interaction of time and continent that affect life expectancy. Mo rover, we find some interesting point is that, using the case in Africa as base point, the increasing in life expectancy is faster over the time in Americas and Asia but it slows down in Europe and Oceania.</p>
+<p>Finally, we look the distribution of residuals by varying the continent in next figure, it suggest the relation between residuals and continents is diminishing.</p>
+<pre class="r"><code>data$residuals = ols$residuals 
+
+data %&gt;% ggplot(aes(y = residuals, color = continent)) + geom_boxplot() + 
+  labs(title = &quot;residuals by continents&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>

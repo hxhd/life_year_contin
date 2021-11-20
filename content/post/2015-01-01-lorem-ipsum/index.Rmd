@@ -1,0 +1,44 @@
+---
+title: "Life Expectancy over Time"
+output:
+  html_document:
+    code_folding: hide
+date: 2021-11-20
+categories: ["R"]
+tags: ["R Markdown", "plot", "life expectancy"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE,warning = F, message = F)
+```
+
+
+In the first blog, we look at the general trend of life expectancy over the time and its distribuitons.
+
+From the figure below, we have a general trend (e.g., increasing ) for life expectancy across time, this trend is somewhat linear.
+
+
+```{r}
+library(tidyverse)
+data = read.csv("../../../raw_data/08_gap-every-five-years.tsv", sep = "\t")
+head(data)
+
+data  %>% ggplot(aes(x = year, y = lifeExp, color= as.factor(year))) + geom_jitter() + theme(legend.position  = "none") +
+  labs(title = "Time Series: Life Expectancy over the Time", y = "Life Expectancy (years)", x = 'Years')
+
+
+
+```
+
+
+
+The peak of life expectancy goes from bottom to top over time. In 1952, the peak appeared at the bottom. As time goes on, the top of the mountain is getting closer to the top of the mountain. By 2007, the data are mainly concentrated at the top. Moreover, although the spread span remains roughly unchanged, the distribution is moving towards higher numbers. The general shape of the distribution (thin at one end and wide at the other) indicates that the distribution of life expectancy is skewed. Before 1977, the distribution was multimodal and then unimodal. No violin looks symmetrical, so the distribution around the center is asymmetric.
+
+
+```{r}
+data  %>% ggplot(aes(x = year, 
+                     y = lifeExp, color = as.factor(year))) + 
+  geom_violin(scale = "count") + theme(legend.position  = "none") +
+  labs(title = "Time Series: Life Expectancy over the Time", y = "Life Expectancy (years)", x = 'Years')
+```
+
