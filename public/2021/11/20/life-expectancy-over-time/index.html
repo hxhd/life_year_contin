@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.89.4" />
+
+
+<title>Life Expectancy over Time - A Hugo website</title>
+<meta property="og:title" content="Life Expectancy over Time - A Hugo website">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="/data">Data</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">Life Expectancy over Time</h1>
+
+    
+    <span class="article-date">2021-11-20</span>
+    
+
+    <div class="article-content">
+      
+<script src="/2021/11/20/life-expectancy-over-time/index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>In the first blog, we look at the general trend of life expectancy over the time and its distribuitons.</p>
+<p>From the figure below, we have a general trend (e.g., increasing ) for life expectancy across time, this trend is somewhat linear.</p>
+<pre class="r"><code>library(tidyverse)
+data = read.csv(&quot;../../../raw_data/08_gap-every-five-years.tsv&quot;, sep = &quot;\t&quot;)
+head(data)
+##       country continent year lifeExp      pop gdpPercap
+## 1 Afghanistan      Asia 1952  28.801  8425333  779.4453
+## 2 Afghanistan      Asia 1957  30.332  9240934  820.8530
+## 3 Afghanistan      Asia 1962  31.997 10267083  853.1007
+## 4 Afghanistan      Asia 1967  34.020 11537966  836.1971
+## 5 Afghanistan      Asia 1972  36.088 13079460  739.9811
+## 6 Afghanistan      Asia 1977  38.438 14880372  786.1134
+
+data  %&gt;% ggplot(aes(x = year, y = lifeExp, color= as.factor(year))) + geom_jitter() + theme(legend.position  = &quot;none&quot;) +
+  labs(title = &quot;Time Series: Life Expectancy over the Time&quot;, y = &quot;Life Expectancy (years)&quot;, x = &#39;Years&#39;)</code></pre>
+<p><img src="/2021/11/20/life-expectancy-over-time/index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>The peak of life expectancy goes from bottom to top over time. In 1952, the peak appeared at the bottom. As time goes on, the top of the mountain is getting closer to the top of the mountain. By 2007, the data are mainly concentrated at the top. Moreover, although the spread span remains roughly unchanged, the distribution is moving towards higher numbers. The general shape of the distribution (thin at one end and wide at the other) indicates that the distribution of life expectancy is skewed. Before 1977, the distribution was multimodal and then unimodal. No violin looks symmetrical, so the distribution around the center is asymmetric.</p>
+<pre class="r"><code>data  %&gt;% ggplot(aes(x = year, 
+                     y = lifeExp, color = as.factor(year))) + 
+  geom_violin(scale = &quot;count&quot;) + theme(legend.position  = &quot;none&quot;) +
+  labs(title = &quot;Time Series: Life Expectancy over the Time&quot;, y = &quot;Life Expectancy (years)&quot;, x = &#39;Years&#39;)</code></pre>
+<p><img src="/2021/11/20/life-expectancy-over-time/index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

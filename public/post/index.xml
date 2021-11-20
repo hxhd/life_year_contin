@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on A Hugo website</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on A Hugo website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 20 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Life Expectancy over Time</title>
+      <link>/2021/11/20/life-expectancy-over-time/</link>
+      <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/11/20/life-expectancy-over-time/</guid>
+      <description>In the first blog, we look at the general trend of life expectancy over the time and its distribuitons.
+From the figure below, we have a general trend (e.g., increasing ) for life expectancy across time, this trend is somewhat linear.
+library(tidyverse)data = read.csv(&amp;quot;../../../raw_data/08_gap-every-five-years.tsv&amp;quot;, sep = &amp;quot;\t&amp;quot;)head(data)## country continent year lifeExp pop gdpPercap## 1 Afghanistan Asia 1952 28.801 8425333 779.4453## 2 Afghanistan Asia 1957 30.</description>
+    </item>
+    
+    <item>
+      <title>Life Expectancy over Time by Continent</title>
+      <link>/2021/11/20/life-expectancy-over-time-by-continent/</link>
+      <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/11/20/life-expectancy-over-time-by-continent/</guid>
+      <description>In the last blog, we find the evidence that there should be a relationship between life expectancy and continent, in this blog, we will check it.
+Firstly, we will visualize the relationship between life expectancy and year by varying the continents.
+library(tidyverse)library(stargazer)data = read.csv(&amp;quot;../../../raw_data/08_gap-every-five-years.tsv&amp;quot;, sep = &amp;quot;\t&amp;quot;)ols = lm(lifeExp ~ year, data)data$residulas = ols$residualsdata %&amp;gt;% ggplot(aes(y = lifeExp, x = year, color = continent)) + geom_point() +stat_smooth(method = &amp;quot;lm&amp;quot;, col = &amp;quot;red&amp;quot;) + facet_wrap(vars(continent), scales = &amp;quot;free&amp;quot;) + theme(legend.</description>
+    </item>
+    
+    <item>
+      <title>Life Expectancy: regresion analysis</title>
+      <link>/2021/11/20/life-expectancy-regresion-analysis/</link>
+      <pubDate>Sat, 20 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/11/20/life-expectancy-regresion-analysis/</guid>
+      <description>From the visualization in last blog, we expect a linear trend of life expectancy over the time. Is our assumption right? In this blog, we will check this intuition statistically.
+we formulate a linear model as following:
+\[\hat{\text{lifeExp}_i} = \beta_0 + \beta_1 * \text{year}_i\]
+The estimates of this linear regression model is shown in table below:
+library(tidyverse)library(stargazer)data = read.csv(&amp;quot;../../../raw_data/08_gap-every-five-years.tsv&amp;quot;, sep = &amp;quot;\t&amp;quot;)ols = lm(lifeExp ~ year, data)stargazer(ols, type =&amp;quot;html&amp;quot;)Dependent variable:lifeExpyear0.</description>
+    </item>
+    
+  </channel>
+</rss>
